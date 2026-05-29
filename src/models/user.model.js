@@ -16,7 +16,7 @@ let userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "password is required"],
-      trim: true,
+      trim: true
     },
     mobile: {
       type: String,
