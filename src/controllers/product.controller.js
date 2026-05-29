@@ -58,19 +58,19 @@ export let getAllProducts = async (req, res) => {
 
 export let getProductById = async (req, res) => {
   try {
-    let {id} = req.params
+    let { id } = req.params;
 
-    let product = await ProductModel.findById(id)
+    let product = await ProductModel.findById(id);
 
-    if(!product) return res.status(404).json({
-      message: "product not found"
-    })
+    if (!product)
+      return res.status(404).json({
+        message: "product not found",
+      });
 
     return res.status(200).json({
       message: "Product fetched successfully",
-      product: product
-    })
-
+      product: product,
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",
@@ -79,6 +79,37 @@ export let getProductById = async (req, res) => {
   }
 };
 
-export let updateProduct = async (req, res) => {};
+export let updateProduct = async (req, res) => {
+  try {
+    let { id } = req.params;
+
+    let product = await ProductModel.findById(id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    let { name, price, description, category } = req.body;
+
+    let updatedProduct = await ProductModel.findByIdAndUpdate(id, {
+      name,
+      price,
+      description,
+      category,
+    });
+
+    return res.status(200).json({
+      message: "Product updated successfully",
+      product: updateProduct,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
 
 export let deleteProduct = async (req, res) => {};
