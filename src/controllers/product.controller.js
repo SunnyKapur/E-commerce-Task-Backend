@@ -1,0 +1,62 @@
+import ProductModel from "../models/product.model.js";
+
+export let createProduct = async (req, res) => {
+  try {
+    let { name, price, description, category } = req.body;
+
+    if (!name || !price)
+      return res.status(400).json({
+        message: "name and price are required",
+      });
+
+    if (name.trim().length < 3) {
+      return res.status(400).json({
+        message: "name must be at least 3 character long",
+      });
+    }
+
+    let newProduct = await ProductModel.create({
+      name,
+      price,
+      description,
+      category,
+    });
+
+    if (!newProduct) {
+      return res.status(400).json({
+        message: "Invalid product",
+      });
+    }
+
+    return res.status(201).json({
+      message: "Product created successfully",
+      product: newProduct,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+export let getAllProducts = async (req, res) => {
+ 
+};
+
+export let getProductById = async (req, res) => {
+  try {
+
+    
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+export let updateProduct = async (req, res) => {};
+
+export let deleteProduct = async (req, res) => {};
