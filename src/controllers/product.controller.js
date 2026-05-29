@@ -41,13 +41,23 @@ export let createProduct = async (req, res) => {
 };
 
 export let getAllProducts = async (req, res) => {
- 
+  try {
+    let allProducts = await ProductModel.find();
+
+    return res.status(200).json({
+      message: "Products fetched successfully",
+      products: allProducts,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
 };
 
 export let getProductById = async (req, res) => {
   try {
-
-    
 
   } catch (error) {
     return res.status(500).json({
