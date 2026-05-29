@@ -58,6 +58,18 @@ export let getAllProducts = async (req, res) => {
 
 export let getProductById = async (req, res) => {
   try {
+    let {id} = req.params
+
+    let product = await ProductModel.findById(id)
+
+    if(!product) return res.status(404).json({
+      message: "product not found"
+    })
+
+    return res.status(200).json({
+      message: "Product fetched successfully",
+      product: product
+    })
 
   } catch (error) {
     return res.status(500).json({
