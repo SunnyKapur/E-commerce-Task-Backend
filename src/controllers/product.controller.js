@@ -93,16 +93,20 @@ export let updateProduct = async (req, res) => {
 
     let { name, price, description, category } = req.body;
 
-    let updatedProduct = await ProductModel.findByIdAndUpdate(id, {
-      name,
-      price,
-      description,
-      category,
-    });
+    let updatedProduct = await ProductModel.findByIdAndUpdate(
+      id,
+      {
+        name,
+        price,
+        description,
+        category,
+      },
+      { new: true },
+    );
 
     return res.status(200).json({
       message: "Product updated successfully",
-      product: updateProduct,
+      product: updatedProduct,
     });
   } catch (error) {
     return res.status(500).json({
@@ -112,4 +116,24 @@ export let updateProduct = async (req, res) => {
   }
 };
 
-export let deleteProduct = async (req, res) => {};
+export let deleteProduct = async (req, res) => {
+  try {
+    let { id } = req.params;
+    let deletedProduct = await ProductModel.findByIdAndDelete(id);
+
+    if (!deletedProduct)
+      return res.status(404).json({
+        message: "Product not found",
+      });
+
+    return res.status(200).json({
+      message: "Product deleted successfully",
+      product: deletedProduct,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
