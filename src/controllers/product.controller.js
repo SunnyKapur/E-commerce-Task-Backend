@@ -42,7 +42,15 @@ export let createProduct = async (req, res) => {
 
 export let getAllProducts = async (req, res) => {
   try {
-    let allProducts = await ProductModel.find();
+    let { category } = req.query;
+
+    let allProducts;
+
+    if (category) {
+      allProducts = await ProductModel.find({ category });
+    } else {
+      allProducts = await ProductModel.find();
+    }
 
     return res.status(200).json({
       message: "Products fetched successfully",
