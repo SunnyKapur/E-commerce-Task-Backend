@@ -2,6 +2,8 @@ import ProductModel from "../models/product.model.js";
 
 export let createProduct = async (req, res) => {
   try {
+    console.log(req.body);
+    console.log(req.files);
     let { name, price, description, category } = req.body;
 
     if (!name || !price)
@@ -15,11 +17,18 @@ export let createProduct = async (req, res) => {
       });
     }
 
+    let images = [];
+
+    if (req.files && req.files.length > 0) {
+      images = req.files.map((file) => file.filename);
+    }
+
     let newProduct = await ProductModel.create({
       name,
       price,
       description,
       category,
+      images,
     });
 
     if (!newProduct) {

@@ -6,7 +6,7 @@ export let authMiddleware = async (req, res, next) => {
     let token = req.cookies.id_card;
 
     if (!token)
-      return res.status(404).json({
+      return res.status(401).json({
         message: "Token not found",
       });
 
